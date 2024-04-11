@@ -7,6 +7,12 @@ pipeline {
               sh "mvn clean package -DskipTests=true"
               archive 'target/*.jar' 
             }
+        }
+      stage('Teste Kubectl') {
+            steps {
+              withKubeConfig([credentialsId: 'kubeconfig', serverUrl: '']) {
+              sh 'kubectl get nodes'
+            }
         }   
     }
 }
