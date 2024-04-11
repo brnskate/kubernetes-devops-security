@@ -8,13 +8,12 @@ pipeline {
               archive 'target/*.jar' // testando 
             }
         }
-        stage('Build Artifact') {
+        stage('mvn teste') {
             steps {
-              sh "mvn clean package -DskipTests=true"
-              archive 'target/*.jar' // testando 
+              sh "mvn --version"
             }
         }
-      stage('Teste Kubectl') {
+        stage('Teste Kubectl') {
             steps {
               withKubeConfig([credentialsId: 'kubeconfig', serverUrl: '']) {
               sh 'kubectl get nodes'
