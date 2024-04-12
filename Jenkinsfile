@@ -8,17 +8,17 @@ pipeline {
               archive 'target/*.jar' // testando 
             }
         }
-        stage('mvn teste') {
-            steps {
-              sh "mvn --version"
+        stage('Unit Tests - JUnit and JaCoCo') {
+          steps {
+            sh "mvn test"
             }
+          post{
+            always { 
+              junit 'target/surefire-reports/*.xml'
+              jacoco execPattern: 'target/jacoco.exec'
+          }
         }
-        stage('Teste Kubectl') {
-            steps {
-              withKubeConfig([credentialsId: 'kubeconfig', serverUrl: '']) {
-              sh 'kubectl get nodes'
-            }
-        }   
-      }
+        
+      } 
     } 
-} 
+}
